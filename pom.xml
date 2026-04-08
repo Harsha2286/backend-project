@@ -20,6 +20,9 @@
 
     <properties>
         <java.version>21</java.version>
+        <!-- Fix for Eclipse m2e "pom.xml error" on <parent> tag -->
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
     </properties>
 
     <dependencies>
