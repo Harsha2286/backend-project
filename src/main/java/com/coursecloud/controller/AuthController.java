@@ -33,6 +33,9 @@ public class AuthController {
         } catch (IllegalArgumentException e) {
             log.warn("Registration failed: {}", e.getMessage());
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (RuntimeException e) {
+            log.error("Registration failed due to OTP delivery error: {}", e.getMessage());
+            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
         }
     }
 
@@ -66,6 +69,9 @@ public class AuthController {
             return ResponseEntity.ok(Map.of("message", response.getMessage()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        } catch (RuntimeException e) {
+            log.error("Resend OTP failed for {}: {}", email, e.getMessage());
+            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
         }
     }
 

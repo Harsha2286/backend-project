@@ -66,6 +66,13 @@ public class UserService {
         log.info("User deleted: {}", id);
     }
 
+    public long deleteAllUsers() {
+        long totalUsers = userRepository.count();
+        userRepository.deleteAllInBatch();
+        log.warn("All users deleted. Total removed: {}", totalUsers);
+        return totalUsers;
+    }
+
     // ── TOGGLE STATUS ────────────────────────────────────────────────
 
     public UserDTO toggleStatus(Long id) {

@@ -92,13 +92,16 @@ public class AuthService {
         userRepository.save(user);
         log.info("User created in PENDING state: {} ({})", email, role);
 
-        // Send OTP email
+        // Send OTP email. If this fails, rollback this registration record so
+        // the user can immediately retry with the same email.
         try {
             emailService.sendOtpEmail(email, name, otp);
             log.info("OTP email sent to {}", email);
         } catch (Exception ex) {
-            log.warn("OTP email sending failed: {}", ex.getMessage());
-            // Don't block — user can use resend-otp
+            log.error("OTP email sending failed for {}: {}", email, ex.getMessage(), ex);
+            userRepository.delete(user);
+            userRepository.flush();
+            throw new IllegalStateException("Unable to send OTP email right now. Please try again in a moment.");
         }
 
         return AuthResponse.builder()

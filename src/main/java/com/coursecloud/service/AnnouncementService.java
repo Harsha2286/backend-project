@@ -1,5 +1,6 @@
 package com.coursecloud.service;
 
+import com.coursecloud.dto.AnnouncementDTO;
 import com.coursecloud.entity.Announcement;
 import com.coursecloud.entity.User;
 import com.coursecloud.repository.AnnouncementRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -22,11 +24,13 @@ public class AnnouncementService {
         this.announcementRepository = announcementRepository;
     }
 
-    public List<Announcement> getAll() {
-        return announcementRepository.findAllByOrderByCreatedAtDesc();
+    public List<AnnouncementDTO> getAll() {
+        return announcementRepository.findAllByOrderByCreatedAtDesc().stream()
+                .map(AnnouncementDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 
-    public Announcement create(String title, String content,
+    public AnnouncementDTO create(String title, String content,
                                 Announcement.Priority priority, User author) {
         Announcement ann = Announcement.builder()
                 .title(title)
@@ -36,7 +40,7 @@ public class AnnouncementService {
                 .build();
         Announcement saved = announcementRepository.save(ann);
         log.info("Announcement created by {}: '{}'", author.getEmail(), title);
-        return saved;
+        return AnnouncementDTO.fromEntity(saved);
     }
 
     public void delete(Long id) {

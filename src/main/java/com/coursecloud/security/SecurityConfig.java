@@ -55,6 +55,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/courses", "/api/courses/").hasAnyRole("Admin", "Instructor", "CONTENT_CREATOR")
                         .requestMatchers(HttpMethod.PUT, "/api/courses/**").hasAnyRole("Admin", "Instructor")
                         .requestMatchers(HttpMethod.DELETE, "/api/courses/**").hasRole("Admin")
+                        // Announcements – only Admin/Instructor can create
+                        .requestMatchers(HttpMethod.POST, "/api/announcements", "/api/announcements/").hasAnyRole("Admin", "Instructor")
+                        .requestMatchers(HttpMethod.DELETE, "/api/announcements/**").hasRole("Admin")
+                        // Assignments – only Admin/Instructor can create/delete
+                        .requestMatchers(HttpMethod.POST, "/api/assignments", "/api/assignments/").hasAnyRole("Admin", "Instructor")
+                        .requestMatchers(HttpMethod.DELETE, "/api/assignments/**").hasAnyRole("Admin", "Instructor")
                         // Everything else requires authentication
                         .anyRequest().authenticated())
                 // Add JWT filter before the default auth filter

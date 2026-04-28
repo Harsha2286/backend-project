@@ -68,6 +68,19 @@ public class UserController {
     }
 
     /**
+     * DELETE /api/users/all
+     * Deletes all users (Admin only).
+     */
+    @DeleteMapping("/all")
+    public ResponseEntity<?> deleteAllUsers() {
+        long deletedCount = userService.deleteAllUsers();
+        return ResponseEntity.ok(Map.of(
+                "message", "All users deleted.",
+                "deletedCount", deletedCount
+        ));
+    }
+
+    /**
      * DELETE /api/users/{id}
      * Deletes a user (Admin only).
      */

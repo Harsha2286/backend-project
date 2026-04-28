@@ -37,9 +37,8 @@ public class AssignmentController {
             case Admin -> ResponseEntity.ok(assignmentService.getAllAssignments());
             case Instructor -> ResponseEntity.ok(
                 assignmentService.getAssignmentsByInstructor(currentUser.getId()));
-            case Student -> ResponseEntity.ok(
+            case Student, CONTENT_CREATOR -> ResponseEntity.ok(
                 assignmentService.getAssignmentsByStudent(currentUser.getId()));
-            default -> ResponseEntity.ok(List.of());
         };
     }
 
@@ -116,9 +115,8 @@ public class AssignmentController {
         return switch (currentUser.getRole()) {
             case Admin, Instructor -> ResponseEntity.ok(
                 assignmentService.getSubmissionsByInstructor(currentUser.getId()));
-            case Student -> ResponseEntity.ok(
+            case Student, CONTENT_CREATOR -> ResponseEntity.ok(
                 assignmentService.getSubmissionsByStudent(currentUser.getId()));
-            default -> ResponseEntity.ok(List.of());
         };
     }
 

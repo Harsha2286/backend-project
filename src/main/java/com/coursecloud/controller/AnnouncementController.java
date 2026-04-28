@@ -1,5 +1,6 @@
 package com.coursecloud.controller;
 
+import com.coursecloud.dto.AnnouncementDTO;
 import com.coursecloud.entity.Announcement;
 import com.coursecloud.entity.User;
 import com.coursecloud.service.AnnouncementService;
@@ -26,7 +27,7 @@ public class AnnouncementController {
      * Returns all announcements (all authenticated users can read).
      */
     @GetMapping
-    public ResponseEntity<List<Announcement>> getAll() {
+    public ResponseEntity<List<AnnouncementDTO>> getAll() {
         return ResponseEntity.ok(announcementService.getAll());
     }
 
@@ -53,7 +54,7 @@ public class AnnouncementController {
             p = Announcement.Priority.medium;
         }
 
-        Announcement saved = announcementService.create(title, content, p, currentUser);
+        AnnouncementDTO saved = announcementService.create(title, content, p, currentUser);
         return ResponseEntity.ok(saved);
     }
 
