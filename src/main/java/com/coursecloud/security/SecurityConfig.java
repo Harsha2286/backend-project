@@ -47,11 +47,14 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // Authorization rules
                 .authorizeHttpRequests(auth -> auth
-                        // Public endpoints – auth, email verification
+                        // Public endpoints – auth, email verification, swagger
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(
                                 "/api/auth/**",
-                                "/api/auth/verify-email/**")
+                                "/api/auth/verify-email/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html")
                         .permitAll()
                         // Admin only endpoints
                         .requestMatchers("/api/users/**").hasRole("Admin")
