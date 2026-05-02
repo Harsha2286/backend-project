@@ -3,3 +3,6 @@
     "mysql2": "^3.20.0"
   }
 }
+"scripts": {
+  "test": "echo \"No tests yet\" && exit 0"
+}
